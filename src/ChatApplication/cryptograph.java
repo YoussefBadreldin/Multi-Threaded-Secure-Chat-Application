@@ -1,9 +1,8 @@
-package test1;
+package ChatApplication;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Scanner;
 
-			
+
 public class cryptograph {
 
   private static BigInteger privateKey;

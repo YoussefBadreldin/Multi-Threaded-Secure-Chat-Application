@@ -1,7 +1,6 @@
-package test1;
+package ChatApplication;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;

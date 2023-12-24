@@ -1,6 +1,5 @@
-package test1;
+package ChatApplication;
 import java.io.*;
-import java.math.BigInteger;
 import java.net.*;
 import java.util.*;
 

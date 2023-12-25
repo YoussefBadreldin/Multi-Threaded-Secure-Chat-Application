@@ -1,5 +1,7 @@
 package ChatApplication;
+
 import java.io.*;
+import java.math.BigInteger;
 import java.net.*;
 import java.util.*;
 
@@ -14,29 +16,20 @@ public class ChatServer {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket);
-                System.out.println("Enter client name");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                String name = reader.readLine();
-                ClientHandler clientHandler = new ClientHandler(clientSocket, name);
+                ClientHandler clientHandler = new ClientHandler(clientSocket);
                 clients.add(clientHandler);
                 Thread handlerThread = new Thread(clientHandler);
                 handlerThread.start();
             }
         } catch (IOException e) {
-            System.out.println("An error occurred while starting the server.");
             e.printStackTrace();
         }
     }
 
-    public static void broadcastMessage(String message, ClientHandler sender, String rec) {
+    public static void broadcastMessage(String message, ClientHandler sender) {
         for (ClientHandler handler : clients) {
-            if (rec.equals("All")) {
-                if (handler != sender) {
-                    handler.sendMessage("Sender name is: " + sender.getName() + "\nMessage: " + message);
-                }
-            }
-            if (handler.getName().equals(rec)) {
-                handler.sendMessage("Sender name is: " + sender.getName() + " " + message + " Handler name is: " + handler.getName());
+            if (handler != sender) {
+                handler.sendMessage(message);
             }
         }
     }

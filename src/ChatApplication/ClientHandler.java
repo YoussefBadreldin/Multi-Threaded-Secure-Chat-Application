@@ -1,18 +1,24 @@
 package ChatApplication;
-import java.io.*;
-import java.net.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 class ClientHandler implements Runnable {
     private Socket clientSocket;
     private PrintWriter out;
-    private String name;
     private FileTransfer fileTransfer;
 
-    public ClientHandler(Socket clientSocket, String name) throws IOException {
+    public ClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        this.name = name;
-        fileTransfer = new FileTransfer(clientSocket);
+        try {
+            this.out = new PrintWriter(clientSocket.getOutputStream(), true);
+            this.fileTransfer = new FileTransfer(clientSocket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -23,36 +29,26 @@ class ClientHandler implements Runnable {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                if (inputLine.startsWith("FILE_TRANSFER")) {
-                    String filePath = inputLine.split(" ")[1];
-                    fileTransfer.receiveFile(filePath);
+                if (inputLine.startsWith("FILE")) {
+                    fileTransfer.receiveFile();
                 } else {
-                    System.out.println("Received from client: "+this.name+ inputLine);
-                    String text = inputLine;
-                    String[] words = text.split("#"); // Split recipient name
-                    String mes=words[1];
-                    String rec=words[0];
-                    ChatServer.broadcastMessage(mes, this,rec);
+                    System.out.println("Received from client: " + inputLine);
+                    ChatServer.broadcastMessage(inputLine, this);
+                }
 
-                    if (inputLine.equals("exit")) {
-                        break;
-                    }
+                if (inputLine.equals("exit")) {
+                    break;
                 }
             }
 
             System.out.println("Client disconnected: " + clientSocket);
             clientSocket.close();
         } catch (IOException e) {
-            System.out.println("An error occurred while handling the client.");
             e.printStackTrace();
         }
     }
 
     public void sendMessage(String message) {
         out.println(message);
-    }
-
-    public String getName() {
-        return name;
     }
 }

@@ -1,4 +1,5 @@
 package ChatApplication;
+
 import java.io.*;
 import java.net.*;
 
@@ -29,10 +30,11 @@ public class FileTransfer {
         fileIn.close();
     }
 
-    public void receiveFile(String savePath) throws IOException {
+    public void receiveFile() throws IOException {
         String fileName = in.readUTF();
         long fileSize = in.readLong();
-        FileOutputStream fileOut = new FileOutputStream(savePath + "/" + fileName);
+        String savePath = "\\Multi-Threaded-Secure-Chat-Application\\Files";
+        FileOutputStream fileOut = new FileOutputStream(savePath + "\\" + fileName);
         byte[] buffer = new byte[4096];
         int read;
         long totalRead = 0L;

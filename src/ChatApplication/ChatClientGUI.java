@@ -7,78 +7,62 @@ import java.net.*;
 import java.util.Scanner;
 
 public class ChatClientGUI {
-    private static final String SERVER_ADDRESS = "127.0.0.2";
+    private static final String SERVER_ADDRESS = "127.0.0.1";
     private static final int PORT = 5000;
-    private static Socket socket;
-    private static PrintWriter out;
-    public static  cryptograph c1=new cryptograph();
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
+    private cryptograph c1;
+    private FileTransfer fileTransfer;
+
+    public ChatClientGUI() throws IOException {
+        c1 = new cryptograph();
+        c1.generateKeys(1024);
+        socket = new Socket(SERVER_ADDRESS, PORT);
+        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        fileTransfer = new FileTransfer(socket);
+    }
+
+    public void sendFile(String filePath) throws IOException {
+        out.println("FILE_TRANSFER " + filePath);
+        fileTransfer.sendFile(filePath);
+    }
+
     public static void main(String[] args) {
-    	//cryptograph c1=new cryptograph();
-    	 c1.generateKeys(1024);
-    	Scanner x=new Scanner (System.in);
-    	String name =x.next();
-        JFrame frame = new JFrame(name);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        try (
+                BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in))
+        ) {
+            ChatClientGUI client = new ChatClientGUI();
+            System.out.println("Connected to the server.");
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        JTextArea chatArea = new JTextArea();
-        chatArea.setEditable(false);
-        panel.add(new JScrollPane(chatArea), BorderLayout.CENTER);
-
-        JTextField messageField = new JTextField();
-        panel.add(messageField, BorderLayout.SOUTH);
-
-        JButton sendButton = new JButton("Send");
-        sendButton.addActionListener(e -> {
-            String message = messageField.getText();
-            
-           
-            if (!message.isEmpty()) {
-                out.println(message);
-                messageField.setText("");
-            }
-        });
-        panel.add(sendButton, BorderLayout.EAST);
-
-        frame.add(panel);
-        frame.setVisible(true);
-
-        try {
-            socket = new Socket(SERVER_ADDRESS, PORT);
-            out = new PrintWriter(socket.getOutputStream(), true);
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            Thread receiveThread = new Thread(() -> {  // Thread to receive messages 
+            Thread receiveThread = new Thread(() -> {
                 try {
                     String received;
-                    while ((received = in.readLine()) != null) {
-                       chatArea.append("Received: " + received + "\n");
-                   }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                    while ((received = client.in.readLine()) != null) {
+                        System.out.println("Received from server: " + received);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
             receiveThread.start();
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        messageField.addActionListener(e -> {	// Thread to send messages
-            String message = messageField.getText();
-            String text = message;
-            String[] words = text.split("#");
-            BigInteger plaintext = new BigInteger(words[1].getBytes()); //convert string to Bytes
-            BigInteger enc = c1.encrypt(plaintext); // to encript message
-            if (!message.isEmpty()) {
-                out.println(words[0]+"#"+enc);
-                messageField.setText("");
+            String userInput;
+            while ((userInput = consoleInput.readLine()) != null) {
+                if (userInput.startsWith("FILE_TRANSFER")) {
+                    String filePath = userInput.split(" ")[1];
+                    client.sendFile(filePath);
+                } else {
+                    client.out.println(userInput);
+                }
+                if (userInput.equalsIgnoreCase("exit")) {
+                    break;
+                }
             }
-        });
+        } catch (IOException e) {
+            System.out.println("An error occurred while connecting to the server.");
+            e.printStackTrace();
+        }
     }
 }
-

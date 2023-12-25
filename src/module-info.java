@@ -4,6 +4,6 @@
 /**
  * 
  */
-module test1 {
+module ChatApplication {
 	requires java.desktop;
 }

@@ -14,10 +14,6 @@ The primary goal of this project is to provide students with a comprehensive und
 - Ensure secure and reliable communication between the client and server.
 - Implement a message exchange where the client sends a message, and the server responds with a confirmation message.
 
-#### 1.3 Documentation and Code Comments
-- Thoroughly document the server and client setup, explaining the purpose and functionality of each component.
-- Provide detailed code comments to enhance code readability.
-
 ### Part 2: Multi-Threaded Server
 
 #### 2.1 Multi-Threaded Architecture
@@ -34,10 +30,6 @@ The primary goal of this project is to provide students with a comprehensive und
 ##### 2.3.1 Thread Pool Implementation
 - Enhance the multi-threaded server by implementing a thread pool for efficient thread reuse and resource management.
 
-#### 2.4 Documentation and Code Comments
-- Extend documentation to cover the multi-threaded aspects of the server.
-- Add comprehensive comments to the code to explain the purpose of each thread, synchronization mechanism, and features.
-
 ### Part 3: Secure Chat Application Enhancement
 
 #### 3.1 Chat Server Implementation
@@ -53,10 +45,6 @@ The primary goal of this project is to provide students with a comprehensive und
 
 #### 3.4 Error Handling and Resilience
 - Develop advanced error handling mechanisms and resilience features to recover from network errors, ensuring a stable and uninterrupted chat experience.
-
-#### 3.5 Documentation and Code Comments
-- Update documentation to cover the additional features, security enhancements, and error handling mechanisms.
-- Ensure that the code comments reflect the new functionalities introduced in this phase.
 
 ### Part 4: File Transfer
 
@@ -75,10 +63,6 @@ The primary goal of this project is to provide students with a comprehensive und
 - Implement robust error handling mechanisms to address issues that may arise during file transfers.
 - Define error codes and messages to communicate specific issues, enabling clients and the server to respond appropriately.
 
-#### 4.5 Documentation and Code Comments
-- Update documentation to cover the file transfer functionality, including details on the protocol, security measures, and error handling.
-- Provide comprehensive comments in the code to explain the purpose and implementation details of each file transfer feature.
-
 ---------------------------------------------------------------------------------------------------------------------------------------
 
 ### Advanced Networking Concepts
@@ -92,7 +76,3 @@ The primary goal of this project is to provide students with a comprehensive und
 
 #### 4.3 Network Protocol Optimization
 - Optimize the chat application's network protocol for efficiency, reducing latency and resource consumption.
-
-#### 4.4 Documentation and Code Comments
-- Document the integration of the proxy server and advanced networking concepts.
-- Provide comprehensive comments in the code to explain the purpose and implementation details.

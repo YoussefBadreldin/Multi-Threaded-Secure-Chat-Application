@@ -79,6 +79,8 @@ The primary goal of this project is to provide students with a comprehensive und
 - Update documentation to cover the file transfer functionality, including details on the protocol, security measures, and error handling.
 - Provide comprehensive comments in the code to explain the purpose and implementation details of each file transfer feature.
 
+---------------------------------------------------------------------------------------------------------------------------------------
+
 ### Advanced Networking Concepts
 
 #### 4.1 Proxy Server Integration

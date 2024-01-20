@@ -59,17 +59,3 @@
 #### 4.4 Error Handling
 - Implemented robust error handling mechanisms to address issues that may arise during file transfers.
 - Defined error codes and messages to communicate specific issues, enabling clients and the server to respond appropriately.
-
----------------------------------------------------------------------------------------------------------------------------------------
-
-### Advanced Networking Concepts
-
-#### 4.1 Proxy Server Integration
-- Integrated a proxy server into the architecture to demonstrate a more complex network topology.
-- Implemented secure communication between the proxy server and the main chat server.
-
-#### 4.2 Load Balancing
-- Implemented a load balancing mechanism to distribute incoming client connections evenly among multiple chat servers.
-
-#### 4.3 Network Protocol Optimization
-- Optimized the chat application's network protocol for efficiency, reducing latency and resource consumption.
